@@ -68,6 +68,7 @@ RETRY_HISTORY_CHARS = 2000
 DEBUG_PROMPT_SIZE = False
 BOOK_SEARCH_LIMIT = 6
 BOOK_SEARCH_FETCH_LIMIT = 40
+
 BOOK_TOPIC_TERMS = {
     "anxiety": ["anxiety", "anxious", "panic", "worry", "fear", "စိုးရိမ်ပူပန်မှု", "စိုးရိမ်စိတ်"],
     "depression": ["depression", "စိတ်ကျရောဂါ"],
@@ -113,143 +114,383 @@ BOOK_TOPIC_MAPPING = {
 BOOK_REQUEST_TERMS = (
     "book", "books", "ebook", "ebooks", "e-book", "e-books", "pdf", "စာအုပ်",
 )
-BURMESE_BOOKS = [
-    {
-        "title": "A Short Introduction to Psychological First Aid (PFA)",
-        "description": "A practical introduction to Psychological First Aid, including the Look, Listen and Link approach.",
-        "language": "🇲🇲 Burmese",
-        "category": "Psychological First Aid",
-        "type": "Guide",
-        "source": "MHPSS Hub",
-        "availability": "FREE",
-        "link_label": "View Official Resource",
-        "format": "PDF / Guide",
-        "resource_url": "https://mhpsshub.org/resource/a-short-introduction-to-psychological-first-aid-pfa/",
-        "cover_url": "/data/book_covers/burmese/pfa-short-introduction.jpg",
-    },
-    {
-        "title": "A Guide to Psychological First Aid (PFA)",
-        "description": "A practical guide for supporting people experiencing distress during stressful or difficult situations.",
-        "language": "🇲🇲 Burmese",
-        "category": "Psychological First Aid",
-        "type": "Guide",
-        "source": "MHPSS Hub",
-        "availability": "FREE",
-        "link_label": "View Official Resource",
-        "format": "PDF / Guide",
-        "resource_url": "https://mhpsshub.org/resource/a-guide-to-psychological-first-aid-pfa-burmese/",
-        "cover_url": "/data/book_covers/burmese/pfa-guide.jpg",
-    },
-    {
-        "title": "Psychological First Aid: Module 1",
-        "description": "An introductory training module covering basic Psychological First Aid skills and the Look, Listen and Link principles.",
-        "language": "🇲🇲 Burmese",
-        "category": "PFA Training",
-        "type": "Training Guide",
-        "source": "MHPSS Hub",
-        "availability": "FREE",
-        "link_label": "View Official Resource",
-        "format": "PDF / Guide",
-        "resource_url": "https://mhpsshub.org/resource/psychological-first-aid-module-1-an-introduction-to-pfa-burmese/",
-        "cover_url": "/data/book_covers/burmese/pfa-module-1.jpg",
-    },
-    {
-        "title": "Psychological First Aid: Module 2",
-        "description": "Training material covering distress reactions, complex situations, PFA practice and helper self-care.",
-        "language": "🇲🇲 Burmese",
-        "category": "PFA Training",
-        "type": "Training Guide",
-        "source": "MHPSS Hub",
-        "availability": "FREE",
-        "link_label": "View Official Resource",
-        "format": "PDF / Guide",
-        "resource_url": "https://mhpsshub.org/resource/psychological-first-aid-module-2-basic-pfa-burmese/",
-        "cover_url": "/data/book_covers/burmese/pfa-module-2.jpg",
-    },
-]
-MENTAL_HEALTH_BOOKS = [
-    {
-        "title": "The Happiness Trap",
-        "description": "ACT-based tools for managing stress, anxiety, and difficult thoughts.",
-        "language": "English",
-        "category": "Stress & Anxiety",
-        "type": "Book",
-        "source": "Russ Harris",
-        "availability": "REFERENCE",
-        "link_label": "View Official Resource",
-        "format": "Book",
-        "resource_url": "https://thehappinesstrap.com/",
-        "cover_url": "",
-    },
-    {
-        "title": "Feeling Good: The New Mood Therapy",
-        "description": "Cognitive behavioral techniques for understanding and improving mood.",
-        "language": "English",
-        "category": "Mood & Depression",
-        "type": "Book",
-        "source": "David D. Burns",
-        "availability": "REFERENCE",
-        "link_label": "View Official Resource",
-        "format": "Book",
-        "resource_url": "https://feelinggood.com/",
-        "cover_url": "",
-    },
-    {
-        "title": "Mind Over Mood",
-        "description": "Practical CBT worksheets for depression, anxiety, and emotional wellbeing.",
-        "language": "English",
-        "category": "CBT Skills",
-        "type": "Book",
-        "source": "Dennis Greenberger & Christine A. Padesky",
-        "availability": "REFERENCE",
-        "link_label": "View Official Resource",
-        "format": "Book",
-        "resource_url": "https://www.mindovermood.com/",
-        "cover_url": "",
-    },
-    {
-        "title": "Self-Compassion",
-        "description": "Evidence-based practices for kinder self-talk and resilience.",
-        "language": "English",
-        "category": "Self-Compassion",
-        "type": "Book",
-        "source": "Kristin Neff",
-        "availability": "REFERENCE",
-        "link_label": "View Official Resource",
-        "format": "Book",
-        "resource_url": "https://self-compassion.org/book/",
-        "cover_url": "",
-    },
-    {
-        "title": "The Body Keeps the Score",
-        "description": "An introduction to how trauma can affect the mind and body.",
-        "language": "English",
-        "category": "Trauma",
-        "type": "Book",
-        "source": "Bessel van der Kolk",
-        "availability": "REFERENCE",
-        "link_label": "View Official Resource",
-        "format": "Book",
-        "resource_url": "https://www.penguinrandomhouse.com/books/229686/the-body-keeps-the-score-by-bessel-van-der-kolk-md/",
-        "cover_url": "",
-    },
-]
+
+# -------------------------------------------------------------------
+# FIXED BOOK LISTS – 6 Burmese and 6 English books
+# These are used when a user asks for books.
+# -------------------------------------------------------------------
+
+# Define TRUSTED_FREE_RESOURCES first
+
 TRUSTED_FREE_RESOURCES = [
     {
-        "title": "Doing What Matters in Times of Stress",
-        "author": "World Health Organization",
-        "description": "An illustrated guide with practical skills for coping with stress.",
-        "language": "English", "topic": "Stress", "format": "PDF / Guide",
-        "resource_url": "https://www.who.int/publications/i/item/9789240003927",
+        "title": "စိတ်ဖိစီးမှုကြုံတဲ့အခါ လုပ်သင့်တာတွေ လုပ်ကြမယ်",
+        "author": "World Health Organization (WHO Myanmar)",
+        "description": "စိတ်ဖိစီးမှုနှင့် အခက်အခဲများကို ရင်ဆိုင်နိုင်ရန် လက်တွေ့ကျသော စိတ်ကျန်းမာရေးနည်းလမ်းများ၊ grounding exercises၊ မကောင်းသောအတွေးများနှင့် ခွဲထွက်ခြင်း၊ မိမိကိုယ်ကို ကြင်နာခြင်းတို့ကို ပုံပြလမ်းညွှန်ဖြင့် သင်ကြားပေးထားသည်။",
+        "language": "🇲🇲 Burmese",
+        "topic": "Stress & Coping",
+        "format": "PDF / Illustrated Guide / Audio",
+        "resource_url": "https://www.who.int/myanmar/activities/doing-what-matters-in-times-of-stress-in-myanmar-language",
     },
+
     {
-        "title": "Psychological First Aid: Guide for Field Workers",
+        "title": "စိတ်ဖိစီးမှုကို ရင်ဆိုင်ခြင်း - မြန်မာဘာသာ",
+        "author": "World Health Organization (WHO Myanmar)",
+        "description": "အရေးပေါ်အခြေအနေများနှင့် စိတ်ဖိစီးမှုများကြုံတွေ့ချိန်တွင် မိမိ၏စိတ်ကျန်းမာရေးကို ထိန်းသိမ်းရန် အခြေခံအကြံပြုချက်များ ပါဝင်သော မြန်မာဘာသာအရင်းအမြစ်။",
+        "language": "🇲🇲 Burmese",
+        "topic": "Stress",
+        "format": "PDF / Information Sheet",
+        "resource_url": "https://www.who.int/myanmar/emergencies/how-to-cope-with-stress",
+    },
+
+    {
+        "title": "ကလေးများ၏ စိတ်ဖိစီးမှုကို ရင်ဆိုင်ခြင်း",
+        "author": "World Health Organization (WHO Myanmar)",
+        "description": "ကလေးများ စိတ်ဖိစီးမှုကြုံတွေ့သည့်အခါ မိဘများနှင့် စောင့်ရှောက်သူများက ကလေးများကို နားလည်ပံ့ပိုးပေးနိုင်ရန် မြန်မာဘာသာဖြင့် ပြုစုထားသော အချက်အလက်။",
+        "language": "🇲🇲 Burmese",
+        "topic": "Children's Mental Health",
+        "format": "PDF / Information Sheet",
+        "resource_url": "https://www.who.int/myanmar/emergencies/how-to-cope-with-stress",
+    },
+
+    {
+        "title": "My Hero is You Too - Myanmar",
+        "author": "UNICEF Myanmar",
+        "description": "Aro ဆိုသည့် နဂါးငယ်လေး၏ ဇာတ်လမ်းမှတစ်ဆင့် ကလေးများအတွက် ရှုပ်ထွေးသော စိတ်ခံစားမှုများ၊ စိတ်ဖိစီးမှု၊ ဝမ်းနည်းမှုနှင့် ကျန်းမာသော coping skills များကို လွယ်ကူစွာ နားလည်စေသော mental-health flipbook။",
+        "language": "🇲🇲 Burmese",
+        "topic": "Children's Mental Health",
+        "format": "PDF / Flipbook",
+        "resource_url": "https://www.unicef.org/myanmar/reports/my-hero-you-too",
+    },
+
+    {
+        "title": "When Songbirds Sing - Myanmar",
+        "author": "UNICEF Myanmar",
+        "description": "Nyi Nyi ၏ ဇာတ်လမ်းမှတစ်ဆင့် ဒေါသ၊ စိတ်မရှည်ခြင်း၊ mindfulness၊ ကျေးဇူးတင်ခြင်းနှင့် စိတ်ခံစားချက်များကို ကျန်းမာစွာ ကိုင်တွယ်နိုင်သည့်နည်းလမ်းများကို ကလေးများအတွက် ရှင်းပြထားသည်။",
+        "language": "🇲🇲 Burmese",
+        "topic": "Children's Mental Health",
+        "format": "PDF / Flipbook",
+        "resource_url": "https://www.unicef.org/myanmar/reports/when-songbirds-sing",
+    },
+
+    {
+        "title": "Tone Tone at the Watering Hole - Myanmar",
+        "author": "UNICEF Myanmar",
+        "description": "ကလေးများအတွက် စိတ်ခံစားမှု၊ empathy၊ relationships နှင့် emotional wellbeing တို့ကို ဇာတ်လမ်းနှင့် ပုံများဖြင့် လေ့လာနိုင်စေရန် ပြုစုထားသော mental-health flipbook။",
+        "language": "🇲🇲 Burmese",
+        "topic": "Children's Mental Health",
+        "format": "PDF / Flipbook",
+        "resource_url": "https://www.unicef.org/myanmar/reports/tone-tone-watering-hole",
+    },
+
+    {
+        "title": "My Hero is You - Myanmar",
+        "author": "Inter-Agency Standing Committee (IASC) / UNICEF Myanmar",
+        "description": "COVID-19 နှင့် အခြားခက်ခဲသောအခြေအနေများအတွင်း ကလေးများနှင့် မိသားစုများက ကြောက်ရွံ့မှု၊ စိုးရိမ်မှုနှင့် စိတ်ခံစားချက်များကို နားလည်ရင်ဆိုင်နိုင်ရန် ဖန်တီးထားသော မြန်မာဘာသာ storybook။",
+        "language": "🇲🇲 Burmese",
+        "topic": "Children & Family Mental Health",
+        "format": "PDF / Storybook",
+        "resource_url": "https://www.unicef.org/myanmar/reports/my-hero-you",
+    },
+
+    {
+        "title": "Myanmar Mental Health and Self-Care Materials",
+        "author": "SUNI-SEA",
+        "description": "မြန်မာဘာသာဖြင့် စိတ်ကျန်းမာရေး၊ self-care၊ psychological wellbeing နှင့် psychological first aid ဆိုင်ရာ ပညာပေးပစ္စည်းများကို စုစည်းပေးထားသော အခမဲ့အရင်းအမြစ်စုစည်းမှု။",
+        "language": "🇲🇲 Burmese",
+        "topic": "Mental Health & Self-Care",
+        "format": "PDF / Educational Materials",
+        "resource_url": "https://www.suni-sea.org/en/resources/iec-materials-on-mental-health-and-self-care-myanmar/",
+    },
+
+    {
+        "title": "Mental Health Resources - Myanmar",
+        "author": "MHPSS Working Group Myanmar",
+        "description": "မြန်မာနိုင်ငံအတွင်း စိတ်ကျန်းမာရေးနှင့် psychosocial support အတွက် အသုံးပြုနိုင်သော toolkits၊ activity materials နှင့် community-support resources များကို စုစည်းပေးထားသည်။",
+        "language": "🇲🇲 Burmese / English",
+        "topic": "Psychosocial Support",
+        "format": "Resource Library / PDF",
+        "resource_url": "https://www.mhpssmyanmar.org/resources",
+    },
+
+    {
+        "title": "Addressing Mental Health in Myanmar",
         "author": "World Health Organization",
-        "description": "A practical guide for supporting people after serious crises or stressful events.",
-        "language": "English", "topic": "Trauma", "format": "PDF / Guide",
-        "resource_url": "https://iris.who.int/handle/10665/44615",
+        "description": "မြန်မာနိုင်ငံ၏ စိတ်ကျန်းမာရေးအခြေအနေ၊ စိတ်ကျန်းမာရေးဝန်ဆောင်မှုများနှင့် စိတ်ကျန်းမာရေးစောင့်ရှောက်မှု တိုးတက်ရေးဆိုင်ရာ WHO country report။",
+        "language": "🇬🇧 English",
+        "topic": "Mental Health in Myanmar",
+        "format": "PDF / Country Report",
+        "resource_url": "https://www.who.int/publications/i/item/9789290210207",
+    },
+
+    {
+        "title": "Mental Health Care for Immigrants - Burmese",
+        "author": "WayAhead / NSW Multicultural Health Communication Service",
+        "description": "မြန်မာဘာသာဖြင့် စိတ်ကျန်းမာရေးအကူအညီလိုအပ်နေမှုကို သိရှိနိုင်ရန်၊ professional support ရှာဖွေရန်နှင့် စိတ်ကျန်းမာရေးဝန်ဆောင်မှုများကို နားလည်နိုင်ရန် ပြုစုထားသော အခမဲ့လမ်းညွှန်။",
+        "language": "🇲🇲 Burmese",
+        "topic": "Mental Health Awareness",
+        "format": "PDF / Guide",
+        "resource_url": "https://www.mhcs.health.nsw.gov.au/publications/mental-health-care-for-immigrants/burmese",
     },
 ]
+
+
+
+FIXED_BURMESE_BOOKS = [
+{
+    "id": "burmese-free-mental-health-1",
+    "title": "Health Messenger Magazine No. 28 - Special Issue on Mental Health",
+    "authors": ["Aide Medicale Internationale (AMI)"],
+    "description": "စိတ်ကျန်းမာရေး၊ စိတ်ဖိစီးမှုကို ကိုင်တွယ်ခြင်း၊ counselling၊ psychosocial support၊ စိတ်ကျန်းမာရေးဆိုင်ရာ အသိပညာပေးအကြောင်းအရာများ ပါဝင်သော မြန်မာ/အင်္ဂလိပ် နှစ်ဘာသာ PDF စာစောင်။",
+    "language": "🇲🇲 Burmese / English",
+    "category": "Mental Health Education",
+    "format": "PDF / Magazine",
+    "availability": "FREE",
+    "cover_url": "assets/book_covers/burmese-free-mental-health-1.jpg",
+    "read_url": "https://www.burmalibrary.org/en/health-messenger-magazine-no-28-special-issue-on-mental-health",
+    "resource_url": "https://www.burmalibrary.org/en/health-messenger-magazine-no-28-special-issue-on-mental-health",
+    "source": "Aide Medicale Internationale / Online Burma-Myanmar Library",
+    "score": 18,
+    "is_free": True,
+    "published_year": 2005
+},
+
+    {
+        "id": "burmese-1",
+        "title": "စိတ်ဝင်္ကပါမှ လွတ်မြောက်ခြင်း",
+        "authors": ["မွန်ဟော်စီ (Mon Halsey)"],
+        "description": "A guide to recognizing and escaping from mental traps and cognitive mazes, focusing on mental healing and self-actualization.",
+        "language": "🇲🇲 Burmese",
+        "category": "Psychology / Self-Help",
+        "format": "Book",
+        "availability": "PAID",
+        "cover_url": "assets/book_covers/escaping_mind_maze.jpg",
+        "read_url": "https://nbinet3.ncl.edu.tw/record=b20081611~S10*chi",
+        "resource_url": "https://nbinet3.ncl.edu.tw/record=b20081611~S10*chi",
+        "source": "National Central Library (Taiwan)",
+        "score": 25,
+        "is_free": False,
+        "published_year": 2025
+    },
+
+    {
+        "id": "burmese2",
+        "title": "လက်စွဲစာအုပ် ၃ - စိတ်ကျန်းမာရေးနှင့် ကောင်းမွန်သောဘဝကို မြှင့်တင်ခြင်း",
+        "authors": ["EarthRights"],
+        "description": "စိတ်ကျန်းမာရေး၊ စိတ်ကျန်းမာရေးပြဿနာနှင့် wellbeing တို့ကို မြန်မာဘာသာဖြင့် ရှင်းပြထားပြီး စိတ်ပိုင်းဆိုင်ရာကျန်းမာရေးနှင့် ကောင်းမွန်သောဘဝကို မြှင့်တင်ရန် လက်တွေ့အသုံးချနိုင်သော အကြောင်းအရာများ ပါဝင်သည်။",
+        "language": "🇲🇲 Burmese",
+        "category": "Mental Health & Wellbeing",
+        "format": "PDF / Handbook",
+        "availability": "FREE",
+        "cover_url": "assets/book_covers/burmese2.jpg",
+        "read_url": "https://earthrights.org/wp-content/uploads/2024/12/Book-5-Wellbeing-and-Psychosocial-Interventions-for-Earth-Rights-Defenders-in-and-From-Myanmar.pdf",
+        "resource_url": "https://earthrights.org/wp-content/uploads/2024/12/Book-5-Wellbeing-and-Psychosocial-Interventions-for-Earth-Rights-Defenders-in-and-From-Myanmar.pdf",
+        "source": "EarthRights",
+        "score": 20,
+        "is_free": True,
+        "published_year": 2023,
+    },
+
+    {
+        "id": "burmese3",
+        "title": "စိတ်ကျန်းမာရေးဆေးပညာအဘိဓာန်နှင့် ဝေါဟာရရှင်းတမ်း",
+        "authors": ["ဒေါက်တာအုန်းကျော်"],
+        "description": "စိတ်ကျန်းမာရေးနှင့်သက်ဆိုင်သော ဝေါဟာရ ၂,၂၀၀ ကျော်၊ စိတ်ရောဂါအမည်များ၊ ရောဂါလက္ခဏာများ၊ ကုထုံးများနှင့် ဆေးဘက်ဆိုင်ရာဝေါဟာရများကို အင်္ဂလိပ်-မြန်မာဖြင့် ရှင်းလင်းဖော်ပြထားသည်။",
+        "language": "🇲🇲 Burmese / English",
+        "category": "Psychiatry & Mental Health",
+        "format": "Book / Dictionary",
+        "availability": "PAID",
+        "cover_url": "assets/book_covers/burmese3.jpg",
+        "read_url": "https://todaybooks.com.mm/shop/book/1342",
+        "resource_url": "https://todaybooks.com.mm/shop/book/1342",
+        "source": "TODAY Book Store",
+        "score": 19,
+        "is_free": False,
+        "published_year": 2025,
+    },
+
+    {
+    "id": "burmese4",
+    "title": "မိမိစိတ်ကို ထိန်းချုပ်ခြင်းဆိုင်ရာအနုပညာ",
+    "authors": ["မြမြဆွေ (စိတ်ပညာ)"],
+    "description": "မိမိစိတ်ကို နားလည်ထိန်းချုပ်ခြင်း၊ ပူဆွေးသောကကို စီမံခြင်း၊ mindfulness၊ စိတ်ကျခြင်းနှင့် စိတ်ကျန်းမာရေးကောင်းမွန်စေရေးတို့ကို လေ့လာနိုင်သော မြန်မာဘာသာစိတ်ပညာစာအုပ်။",
+    "language": "🇲🇲 Burmese",
+    "category": "Emotional Wellbeing & Psychology",
+    "format": "Book",
+    "availability": "PAID",
+    "cover_url": "assets/book_covers/burmese4.jpg",
+    "read_url": "https://todaybooks.com.mm/shop/book/970",
+    "resource_url": "https://todaybooks.com.mm/shop/book/970",
+    "source": "TODAY Book Store",
+    "score": 20,
+    "is_free": False,
+    "published_year": 2025,
+},
+
+    {
+    "id": "burmese5",
+    "title": "ချစ်သူနဲ့ စိတ်ကျန်းမာရေး",
+    "authors": ["စူးရှမေ"],
+    "description": "မိမိနှင့် မိမိချစ်သူ၏ စိတ်ဒဏ်ရာများကို နားလည်ခြင်း၊ relationship များအတွင်း စိတ်ကျန်းမာရေးကို ဂရုစိုက်ခြင်းနှင့် ကျန်းမာသောဆက်ဆံရေး တည်ဆောက်ခြင်းအကြောင်း ရေးသားထားသော မြန်မာဘာသာစာအုပ်။",
+    "language": "🇲🇲 Burmese",
+    "category": "Relationships & Mental Health",
+    "format": "Book",
+    "availability": "PAID",
+    "cover_url": "assets/book_covers/burmese5.jpg",
+    "read_url": "https://todaybooks.com.mm/shop/book/1230",
+    "resource_url": "https://todaybooks.com.mm/shop/book/1230",
+    "source": "TODAY Book Store",
+    "score": 20,
+    "is_free": False,
+    "published_year": 2025,
+},
+
+    {
+        "id": "burmese6",
+        "title": "Burmese - Mental Health Care for Immigrants",
+        "authors": ["WayAhead"],
+        "description": "မြန်မာဘာသာဖြင့် စိတ်ကျန်းမာရေးအကူအညီ လိုအပ်နေမှုကို သတိပြုနိုင်ရန်၊ ကုသမှုရွေးချယ်စရာများနှင့် အကူအညီရှာဖွေနိုင်သည့် နည်းလမ်းများကို ရှင်းပြထားသော အခမဲ့ PDF။",
+        "language": "🇲🇲 Burmese",
+        "category": "Mental Health Awareness",
+        "format": "PDF / Guide",
+        "availability": "FREE",
+        "cover_url": "assets/book_covers/burmese6.jpg",
+        "read_url": "https://www.mhcs.health.nsw.gov.au/publications/mental-health-care-for-immigrants/burmese",
+        "resource_url": "https://www.mhcs.health.nsw.gov.au/publications/mental-health-care-for-immigrants/burmese",
+        "source": "WayAhead / NSW Multicultural Health Communication Service",
+        "score": 18,
+        "is_free": True,
+        "published_year": 2021,
+    },
+
+    {
+        "id": "burmese7",
+        "title": "Health Messenger Magazine No. 28 - Mental Health Special Issue",
+        "authors": ["Aide Medicale Internationale"],
+        "description": "စိတ်ကျန်းမာရေး၊ စိတ်ဖိစီးမှုကို ကိုင်တွယ်ခြင်း၊ counselling၊ စိတ်ပိုင်းဆိုင်ရာနှင့် လူမှုရေးဆိုင်ရာ အထောက်အပံ့များအကြောင်း ပါဝင်သော မြန်မာ/အင်္ဂလိပ် နှစ်ဘာသာထုတ် စာစောင်။",
+        "language": "🇲🇲 Burmese / English",
+        "category": "Mental Health Education",
+        "format": "PDF / Magazine",
+        "availability": "FREE",
+        "cover_url": "assets/book_covers/burmese7.jpg",
+        "read_url": "https://www.burmalibrary.org/en/health-messenger-magazine-no-28-special-issue-on-mental-health",
+        "resource_url": "https://www.burmalibrary.org/en/health-messenger-magazine-no-28-special-issue-on-mental-health",
+        "source": "Online Burma/Myanmar Library",
+        "score": 17,
+        "is_free": True,
+        "published_year": 2005,
+    },
+]
+
+FIXED_ENGLISH_BOOKS = [
+    {
+        "id": "eng1",
+        "title": "A Beginner's Guide to Being Mental",
+        "authors": ["Natasha Devon"],
+        "description": "A comprehensive guide to mental health from one of the UK's foremost experts, debunking and demystifying the full spectrum of mental health.",
+        "language": "English",
+        "category": "Mental Health Education",
+        "format": "Book",
+        "availability": "REFERENCE",
+        "cover_url": "A Beginner's Guide to Being Mental.png",
+        "read_url": "https://www.panmacmillan.com/authors/natasha-devon/a-beginners-guide-to-being-mental/9781509882229",
+        "resource_url": "https://www.panmacmillan.com/authors/natasha-devon/a-beginners-guide-to-being-mental/9781509882229",
+        "source": "Pan Macmillan",
+        "score": 20,
+        "is_free": False,
+        "published_year": 2018,
+    },
+    {
+        "id": "eng2",
+        "title": "My Lovely Wife",
+        "authors": ["Mark Lukach"],
+        "description": "A powerful memoir of one man's overwhelming love for his wife through mental illness and psychosis.",
+        "language": "English",
+        "category": "Memoir",
+        "format": "Book",
+        "availability": "REFERENCE",
+        "cover_url": "My Lovely Wife.png",
+        "read_url": "https://www.panmacmillan.com/authors/mark-lukach/my-lovely-wife/9781509805969",
+        "resource_url": "https://www.panmacmillan.com/authors/mark-lukach/my-lovely-wife/9781509805969",
+        "source": "Pan Macmillan",
+        "score": 19,
+        "is_free": False,
+        "published_year": 2018,
+    },
+    {
+        "id": "eng3",
+        "title": "Iron Hope",
+        "authors": ["James Lawrence"],
+        "description": "Develops mental toughness to accomplish anything; essential reading for anybody with goals.",
+        "language": "English",
+        "category": "Motivation",
+        "format": "Book",
+        "availability": "REFERENCE",
+        "cover_url": "Iron Hope by James Lawrence.png",
+        "read_url": "https://www.worldofbooks.com/en-au/products/iron-hope-book-james-lawrence-9781035062249?sku=GOR014315170",
+        "resource_url": "https://www.worldofbooks.com/en-au/products/iron-hope-book-james-lawrence-9781035062249?sku=GOR014315170",
+        "source": "Pan Macmillan",
+        "score": 18,
+        "is_free": False,
+        "published_year": 2025,
+    },
+    {
+        "id": "eng4",
+        "title": "Ten Times Calmer",
+        "authors": ["Dr Kirren Schnack"],
+        "description": "An Oxford-trained NHS clinical psychologist offers a practical first-aid kit of tools to help you understand anxiety, manage stress, tackle trauma, and find calm – with short exercises and clinically proven tips.",
+        "language": "English",
+        "category": "Anxiety / Stress Management",
+        "format": "Book",
+        "availability": "REFERENCE",
+        "cover_url": "Ten Times Calmer by Kirren Schnack.png",
+        "read_url": "https://www.worldofbooks.com/en-au/products/ten-times-calmer-book-kirren-schnack-9781035013623?sku=GOR014714578",
+        "resource_url": "https://www.worldofbooks.com/en-au/products/ten-times-calmer-book-kirren-schnack-9781035013623?sku=GOR014714578",
+        "source": "Pan Macmillan",
+        "score": 18,
+        "is_free": False,
+        "published_year": 2023,
+    },
+    {
+        "id": "eng5",
+        "title": "Furiously Happy",
+        "authors": ["Jenny Lawson"],
+        "description": "A hilarious, outrageous memoir about the author's lifelong battle with mental illness – exploring crippling depression and anxiety while embracing joy in fantastic, joy-filled ways.",
+        "language": "English",
+        "category": "Memoir / Mental Health",
+        "format": "Book",
+        "availability": "REFERENCE",
+        "cover_url": "Gemini_Generated_Image_uyovjeuyovjeuyov.jpeg",
+        "read_url": "https://www.panmacmillan.com/authors/jenny-lawson/furiously-happy/9781529080704",
+        "resource_url": "https://www.panmacmillan.com/authors/jenny-lawson/furiously-happy/9781529080704",
+        "source": "Pan Macmillan",
+        "score": 18,
+        "is_free": False,
+        "published_year": 2021,
+    },
+    {
+        "id": "eng6",
+        "title": "Maybe I Don't Belong Here",
+        "authors": ["David Harewood"],
+        "description": "A powerful and provocative memoir from the critically acclaimed actor – charting his life from working-class Birmingham to Hollywood, his psychotic breakdown, and the impact of everyday racism on Black mental health.",
+        "language": "English",
+        "category": "Memoir / Race & Mental Health",
+        "format": "Book",
+        "availability": "REFERENCE",
+        "cover_url": "Maybe I Don't Belong Here.png",
+        "read_url": "https://www.panmacmillan.com/authors/david-harewood/maybe-i-dont-belong-here/9781529064155",
+        "resource_url": "https://www.panmacmillan.com/authors/david-harewood/maybe-i-dont-belong-here/9781529064155",
+        "source": "Pan Macmillan",
+        "score": 18,
+        "is_free": False,
+        "published_year": 2021,
+    },
+]
+# -------------------------------------------------------------------
+# Original resource databases – using the fixed lists for now
+# -------------------------------------------------------------------
+BURMESE_BOOKS = FIXED_BURMESE_BOOKS
+MENTAL_HEALTH_BOOKS = FIXED_ENGLISH_BOOKS
 VERIFIED_FREE_MENTAL_HEALTH_RESOURCES = TRUSTED_FREE_RESOURCES
 
 
@@ -282,6 +523,9 @@ VERIFIED_FREE_MENTAL_HEALTH_RESOURCES = [
 ]
 
 working_dir = os.path.dirname(os.path.realpath(__file__))
+
+# Define LOCAL_IMAGE_FOLDER at the module level
+LOCAL_IMAGE_FOLDER = os.path.join(working_dir, "images")
 
 
 def _find_pdf_font(filename):
@@ -1632,33 +1876,48 @@ def render_media_section(media_request, llm):
 def _media_assistant_response(media_request):
     artist = media_request.get("artist")
     if artist:
-        return f"Listening to {artist} can be a positive way to support your mood. I’ll show suitable songs below when they are available."
-    return "Music and videos can be a supportive part of your wellbeing routine. I’ll show suitable recommendations below when they are available."
+        return f"Listening to {artist} can be a positive way to support your mood. I'll show suitable songs below when they are available."
+    return "Music and videos can be a supportive part of your wellbeing routine. I'll show suitable recommendations below when they are available."
 
+
+# -------------------------------------------------------------------
+# BOOK RESPONSE – uses fixed lists, no API calls
+# -------------------------------------------------------------------
 
 def _book_assistant_response(book_request, books, llm):
     language = "Burmese" if book_request.get("language") == "🇲🇲 Burmese" else "English"
     metadata = json.dumps([
         {key: book.get(key) for key in (
             "title", "authors", "description", "language", "category", "source",
-            "topic", "type", "book_url", "resource_url", "read_url", "download_url",
+            "type", "book_url", "resource_url", "read_url", "download_url",
             "format", "access_type", "availability", "readable", "is_free",
         )}
         for book in books[:BOOK_SEARCH_LIMIT]
     ], ensure_ascii=False)
-    prompt = f"""Write the complete, concise {language} book recommendation response using ONLY the supplied BOOK_SEARCH_RESULTS.
-Do not search for or invent books, authors, descriptions, URLs, PDF links, availability, topics, or sources.
-Return plain Markdown text only. Do not output JSON, Python, HTML, SVG, CSS, Streamlit code, or book-card markup.
-Use at most 6 numbered results, and include only supplied results with a meaningful title. If fewer relevant results are supplied, show fewer; never fill remaining slots with unrelated books.
-Open with a short natural introduction stating that the resources are educational and not a substitute for professional mental-health care.
-For each result, include its supplied title, author, topic, actual language, format, access status, concise supplied description, and source.
-Include a brief "Why it may help" sentence based only on the supplied description and topic; do not add claims not supported by the metadata.
-Include only one Markdown Read/View link when a supplied URL is HTTPS and non-empty; use read_url when supplied, otherwise book_url or resource_url. Never add a separate PDF or Download link, even when download_url is supplied. Never create or modify a URL, use placeholders such as VALID_ENGLISH_URL, or use localhost.
+
+    # Force correct Burmese disclaimer
+    opening_instruction = (
+        "Open with a short natural introduction stating that the resources are educational "
+        "and not a substitute for professional mental-health care."
+    )
+    if language == "Burmese":
+        opening_instruction += (
+            " For Burmese, use exactly this disclaimer: "
+            "'ဤစာရင်းထဲက အရင်းအမြစ်များသည် စိတ်ကျန်းမာရေးဆိုင်ရာ ပညာပေးအကြောင်းအရာများဖြစ်ပြီး၊ "
+            "ပရော်ဖက်ရှင်နယ် စိတ်ကျန်းမာရေးစောင့်ရှောက်မှုအတွက် အစားထိုးမဟုတ်ပါ။'"
+        )
+    
+
+    prompt = f"""Write a concise, friendly {language} introduction to the supplied BOOK_SEARCH_RESULTS.
+Do not repeat all book metadata – the application separately renders the supplied books as visual book cards.
+Do not generate HTML, CSS, SVG, Streamlit code, or card markup – return only plain Markdown text.
+Use at most 6 numbered results, and include only supplied results with a meaningful title.
+{opening_instruction}
+For each result, include its supplied title, author, category, actual language, format, access status, concise supplied description, and source.
+Include a Markdown Read/View link only when a supplied URL is HTTPS and non-empty; use read_url or download_url when supplied, otherwise book_url or resource_url. Never create or modify a URL and never use localhost.
 Use FREE only when supplied is_free is true or supplied access_type/availability explicitly says FREE. Say Preview or View details for reference-only items.
-Do not output a separate PDF/Download line or mention an unsupplied PDF link.
-For Burmese requests, prefer only genuinely Burmese-language results when available. Never label an English result as Burmese. If Burmese results are unavailable or insufficient, clearly say so and label any supplied English results as English.
-Match the requested topic closely, including anxiety, depression, stress management, mindfulness, trauma, sleep, self-help, emotional wellbeing, emotional regulation, coping, and adolescent mental health. Do not claim that any book cures or treats depression or any other condition.
-Keep the opening and each item concise. This response is the complete book result; the application does not render cards.
+If download_url is supplied and HTTPS, include it as a separate PDF/download link; otherwise do not mention or invent a PDF link.
+Keep the opening and each item concise.
 
 BOOK_SEARCH_RESULTS:
 {metadata}
@@ -1666,7 +1925,7 @@ BOOK_SEARCH_RESULTS:
 If the language is Burmese, write in natural Burmese Unicode. Mention that these are educational resources, not a replacement for professional care.
 Use the actual language shown in each supplied result; never label an English result as Burmese."""
     try:
-        response = llm.invoke(prompt)
+        response = llm.invoke(prompt, max_tokens=3000)
         text = _sanitize_assistant_response(getattr(response, "content", response))
         text = re.sub(r"```(?:html|xml|svg|css|python)?\s*|```", "", text, flags=re.IGNORECASE)
         text = re.sub(r"</?(?:article|div|section|style|script|a|img|button|span|p|h[1-6])\b[^>]*>", "", text, flags=re.IGNORECASE)
@@ -1710,6 +1969,9 @@ def detect_book_request(question):
     }
 
 
+# -------------------------------------------------------------------
+# These functions are kept only for fallback – not used in the fixed flow
+# -------------------------------------------------------------------
 def _official_resource_is_available(resource_url):
     try:
         response = requests.head(resource_url, allow_redirects=True, timeout=10)
@@ -1993,126 +2255,31 @@ def _book_relevance_score(volume, query):
 
 @st.cache_data(ttl=900, show_spinner=False)
 def search_google_books(query, language="English", max_results=BOOK_SEARCH_LIMIT, free_only=False):
-    if not GOOGLE_BOOKS_API_KEY:
-        logger.warning("Google Books API key is missing")
-        return []
-    variants = _book_query_variants(str(query or "").strip(), language)
-    candidates, seen_ids = [], set()
-    google_count = rejected_language = rejected_topic = rejected_free = rejected_readability = 0
-    logger.info("Google Books query=%r variants=%r language=%s free_only=%s", query, variants, language, free_only)
-    try:
-        for search_query in variants:
-            response = requests.get(
-                "https://www.googleapis.com/books/v1/volumes",
-                params={"q": search_query, "maxResults": BOOK_SEARCH_FETCH_LIMIT, "orderBy": "relevance", "printType": "books", "langRestrict": "my" if language == "🇲🇲 Burmese" else "en", **({"filter": "free-ebooks"} if free_only else {}), "key": GOOGLE_BOOKS_API_KEY},
-                timeout=10,
-            )
-            response.raise_for_status()
-            items = response.json().get("items", [])
-            google_count += len(items)
-            logger.info("Google Books query=%r returned=%d", search_query, len(items))
-            for volume in items:
-                volume_id = str(volume.get("id", "")).strip()
-                info = volume.get("volumeInfo", {}) if isinstance(volume.get("volumeInfo"), dict) else {}
-                actual_language = str(info.get("language", "")).lower()
-                score = _book_relevance_score(volume, query)
-                access = volume.get("accessInfo", {}) if isinstance(volume.get("accessInfo"), dict) else {}
-                viewability = str(access.get("viewability", "")).upper()
-                access_view_status = str(access.get("accessViewStatus", "")).upper()
-                public_domain = bool(access.get("publicDomain", False))
-                epub = access.get("epub", {}) or {}
-                pdf = access.get("pdf", {}) or {}
-                epub_available = bool(epub.get("isAvailable", False)) if isinstance(epub, dict) else False
-                pdf_available = bool(pdf.get("isAvailable", False)) if isinstance(pdf, dict) else False
-                web_reader = str(access.get("webReaderLink", "")).strip()
-                is_readable = is_free_readable_google_book(volume)
-                language_valid = bool(actual_language) and (
-                    (actual_language in {"my", "mya", "bur"} or contains_burmese(
-                        " ".join(str(info.get(field, "")) for field in ("title", "subtitle", "description", "categories", "authors"))
-                    )) if language == "🇲🇲 Burmese" else actual_language in {"en", "eng"}
-                )
-                if not language_valid:
-                    rejected_language += 1
-                    continue
-                if score < 3:
-                    rejected_topic += 1
-                    continue
-                if free_only and not is_readable:
-                    rejected_free += 1
-                    rejected_readability += 1
-                    continue
-                if not volume_id or volume_id in seen_ids or str(volume.get("printType", "BOOK")).upper() != "BOOK":
-                    continue
-                normalized = _normalize_google_book(volume, query, language)
-                candidates.append(normalized)
-                seen_ids.add(volume_id)
-        candidates.sort(key=lambda book: (-book["score"], not bool(book["cover_url"]), not book["is_free"]))
-        selected = candidates[:max(1, min(int(max_results), BOOK_SEARCH_LIMIT))]
-        logger.info("BOOK SEARCH | language=%s | query=%s | google=%d | rejected_language=%d | rejected_topic=%d | rejected_free=%d | rejected_readability=%d | accepted=%d", language, query, google_count, rejected_language, rejected_topic, rejected_free, rejected_readability, len(selected))
-        return selected
-    except (requests.RequestException, ValueError, TypeError, KeyError):
-        logger.exception("Google Books search failed")
-        return []
+    # Not used in fixed flow, but kept for compatibility
+    return []
 
 
 def search_verified_free_resources(query, language, max_results=BOOK_SEARCH_LIMIT):
-    requested_language = "🇲🇲 Burmese" if language in {"Burmese", "🇲🇲 Burmese"} else "English"
-    lowered_query = str(query or "").casefold()
-    resources = []
-    catalog = [
-        resource for resource in VERIFIED_FREE_MENTAL_HEALTH_RESOURCES
-        if resource.get("language") == requested_language and resource.get("readable") is True
-    ]
-    for resource in catalog:
-        searchable = " ".join(str(resource.get(field, "")) for field in ("title", "description", "category", "source")).casefold()
-        topic = _book_topic(query)
-        topic_terms = BOOK_TOPIC_TERMS.get(topic, [])
-        if topic != "mental health" and not any(term.casefold() in searchable for term in topic_terms):
-            continue
-        resource_url = _verified_https_url(resource.get("resource_url"))
-        if not resource_url:
-            continue
-        available = (_official_resource_is_available(resource_url)
-                     if requested_language == "🇲🇲 Burmese"
-                     else _trusted_resource_is_available(resource_url))
-        if not available:
-            continue
-        pdf_url = _official_pdf_url(resource_url) if requested_language == "🇲🇲 Burmese" else _trusted_pdf_url(resource_url)
-        resources.append({
-            "id": "", "title": resource.get("title", "Mental health resource"),
-            "authors": resource.get("authors", [resource.get("source", "Official resource")]),
-            "description": resource.get("description", ""), "language": requested_language,
-            "category": resource.get("category", "Mental Health"),
-            "cover_url": _extract_saved_cover(resource) or _fallback_cover_data_uri(resource.get("title", "Resource")),
-            "resource_url": resource_url, "source": resource.get("source", "Verified open-access source"),
-            "access_type": "FREE", "readable": True,
-            "format": "PDF / Guide" if pdf_url else "Online guide", "download_url": _verified_https_url(pdf_url),
-            "availability": "FREE", "score": 15 + (5 if requested_language == "🇲🇲 Burmese" else 0),
-        })
-    logger.info("BOOK CATALOG | language=%s | query=%s | accepted=%d", requested_language, lowered_query, len(resources))
-    return resources[:max_results]
+    # Not used in fixed flow, but kept for compatibility
+    return []
 
 
+@st.cache_data(ttl=900, show_spinner=False)
 def search_mental_health_books(query, language, max_results=BOOK_SEARCH_LIMIT, free_only=False):
-    requested_language = "🇲🇲 Burmese" if language in {"Burmese", "🇲🇲 Burmese"} else "English"
-    google_books = search_google_books(query, requested_language, max_results, free_only)
-    verified_resources = search_verified_free_resources(query, requested_language, max_results)
-    candidates = deduplicate_books(verified_resources + google_books)
-    candidates.sort(key=lambda book: (-int(book.get("score", 0)), not bool(book.get("readable", book.get("is_free", False))), not bool(book.get("cover_url"))))
-    final_books = candidates[:max(0, min(int(max_results), BOOK_SEARCH_LIMIT))]
-    logger.info("BOOK SEARCH | language=%s | query=%s | google=%d | verified=%d | final=%d", requested_language, query, len(google_books), len(verified_resources), len(final_books))
-    return final_books
+    """
+    Returns the fixed list of 6 books based on the requested language.
+    """
+    if language == "🇲🇲 Burmese":
+        return FIXED_BURMESE_BOOKS[:BOOK_SEARCH_LIMIT]
+    else:
+        return FIXED_ENGLISH_BOOKS[:BOOK_SEARCH_LIMIT]
 
 
-def render_book_section(book_request, books=None):
-    """Legacy book-section renderer disabled; book results are LLM text only."""
-    return
-
-
+# -------------------------------------------------------------------
+# BOOK CARD RENDERER – COMPACT, FIXED SIZE
+# -------------------------------------------------------------------
 def render_book_cards(books):
-    """Legacy book-card renderer disabled; book results are LLM text only."""
-    return
-
+    """Render compact book cards with vertical 2:3 cover aspect ratio."""
     if not books:
         return
     cards = []
@@ -2123,10 +2290,39 @@ def render_book_cards(books):
         if isinstance(author, list):
             author = ", ".join(str(item).strip() for item in author if str(item).strip())
         author_text = escape(str(author).strip() or "Author unavailable", quote=True)
-        description = escape(str(book.get("description", "Description unavailable.")).strip()[:180] or "Description unavailable.", quote=True)
+        description = escape(str(book.get("description", "Description unavailable.")).strip()[:100] or "Description unavailable.", quote=True)
         language = escape(str(book.get("language", "English")), quote=True)
-        cover_url = str(book.get("cover_url", "")).strip() or _fallback_cover_data_uri(title_raw)
-        action_url = str(book.get("resource_url", "")).strip()
+        
+        # ---------- Handle cover image ----------
+        cover_url = str(book.get("cover_url", "")).strip()
+        
+        # If it's a local file path (not http/data)
+        if cover_url and not cover_url.startswith(("http", "data:")):
+            # If cover_url is already an absolute path, use it directly
+            if os.path.isabs(cover_url):
+                local_path = cover_url
+            else:
+                # Otherwise, join with the local image folder
+                local_path = os.path.join(LOCAL_IMAGE_FOLDER, cover_url)
+            
+            if os.path.exists(local_path):
+                try:
+                    with open(local_path, "rb") as f:
+                        img_data = f.read()
+                    encoded = base64.b64encode(img_data).decode("ascii")
+                    mime_type = mimetypes.guess_type(local_path)[0] or "image/jpeg"
+                    cover_url = f"data:{mime_type};base64,{encoded}"
+                except Exception:
+                    # On error, fallback to default cover
+                    cover_url = _fallback_cover_data_uri(title_raw)
+            else:
+                # File not found, fallback to default cover
+                cover_url = _fallback_cover_data_uri(title_raw)
+        elif not cover_url:
+            cover_url = _fallback_cover_data_uri(title_raw)
+        # ---------------------------------------
+
+        action_url = str(book.get("read_url") or book.get("resource_url") or "").strip()
         parsed_link = urlparse(action_url)
         safe_link = escape(action_url, quote=True) if parsed_link.scheme == "https" and parsed_link.netloc else ""
         action_label = "Read Book" if book.get("readable") is True else "Preview"
@@ -2137,7 +2333,7 @@ def render_book_cards(books):
         )
         cards.append(
             f'<article class="book-card-item"><div class="book-cover-wrap">'
-            f'<img class="book-cover" src="{escape(cover_url, quote=True)}" alt="{title}" loading="lazy">'
+            f'<img class="book-cover" src="{escape(cover_url, quote=True)}" alt="{title}" loading="lazy" referrerpolicy="no-referrer" crossorigin="anonymous">'
             f'<span class="book-free-badge">{escape(str(book.get("availability", "REFERENCE")))}</span>'
             f'</div><div class="book-card-content"><h4 class="book-title" title="{title}">{title}</h4>'
             f'<p class="book-author" title="{author_text}">{author_text}</p>'
@@ -2148,24 +2344,41 @@ def render_book_cards(books):
         )
     st.markdown("""
     <style>
-        .google-book-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; width: 100%; max-width: 1000px; margin: 0 auto 16px; align-items: stretch; }
-        .book-card-item { display: flex; height: 100%; flex-direction: column; gap: 8px; width: 100%; min-width: 0; }
-        .book-cover-wrap { position: relative; width: 100%; height: 180px; overflow: hidden; border: 1px solid rgba(15, 23, 42, .08); border-radius: 10px; background: #f0f0f0; box-shadow: 0 2px 8px rgba(15, 23, 42, .06); transition: all .3s ease; }
-        .book-cover-wrap:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(15, 23, 42, .12); }
-        .book-cover { display: block; width: 100%; height: 100%; object-fit: contain; background: #f0f0f0; }
-        .book-free-badge { position: absolute; top: 7px; left: 7px; padding: 3px 6px; border-radius: 8px; background: rgba(22, 116, 107, .94); color: #fff; font-size: .55rem; font-weight: 800; }
-        .book-card-content { display: flex; min-height: 118px; flex-direction: column; gap: 4px; justify-content: space-between; }
-        .book-title { display: -webkit-box; min-height: 2.5em; margin: 0; overflow: hidden; color: #0f172a; font-size: .78rem; line-height: 1.25; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
-        .book-author { margin: 0; overflow: hidden; color: #475569; font-size: .66rem; line-height: 1.3; text-overflow: ellipsis; white-space: nowrap; }
-        .book-description { display: -webkit-box; margin: 0; overflow: hidden; color: #64748b; font-size: .62rem; line-height: 1.25; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
-        .book-meta { display: flex; flex-wrap: wrap; gap: 4px; color: #64748b; font-size: .55rem; }
-        .book-meta span { max-width: 100%; overflow: hidden; padding: 2px 5px; border-radius: 8px; background: #f1f5f9; text-overflow: ellipsis; white-space: nowrap; }
-        .book-read-button { display: flex; align-items: center; justify-content: center; min-height: 30px; margin-top: auto; border-radius: 8px; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff !important; font-size: .72rem; font-weight: 700; line-height: 1.3; text-decoration: none !important; transition: all .2s ease; box-shadow: 0 2px 6px rgba(37, 99, 235, .2); }
-        .book-read-button:hover { background: linear-gradient(135deg, #1d4ed8, #1e40af); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37, 99, 235, .35); }
+        .google-book-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; width: 100%; max-width: 1000px; margin: 0 auto 12px; align-items: stretch; }
+        .book-card-item { display: flex; height: 100%; flex-direction: column; gap: 4px; width: 100%; min-width: 0; }
+        .book-cover-wrap { 
+            position: relative; 
+            width: 100%; 
+            aspect-ratio: 2 / 3;  /* Vertical 2:3 aspect ratio */ 
+            overflow: hidden; 
+            border: 1px solid rgba(15, 23, 42, .08); 
+            border-radius: 8px; 
+            background: #f0f0f0; 
+            box-shadow: 0 2px 6px rgba(15, 23, 42, .05); 
+            transition: all .25s ease; 
+        }
+        .book-cover-wrap:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(15, 23, 42, .1); }
+        .book-cover { 
+            display: block; 
+            width: 100%; 
+            height: 100%; 
+            object-fit: contain;  /* Show full cover without cropping */
+            background: #f0f0f0; 
+        }
+        .book-free-badge { position: absolute; top: 6px; left: 6px; padding: 2px 6px; border-radius: 6px; background: rgba(22, 116, 107, .9); color: #fff; font-size: .5rem; font-weight: 700; }
+        .book-card-content { display: flex; flex: 1; flex-direction: column; gap: 2px; justify-content: space-between; padding: 6px 2px 2px 2px; }
+        .book-title { display: -webkit-box; min-height: 2.2em; margin: 0; overflow: hidden; color: #0f172a; font-size: .72rem; line-height: 1.2; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+        .book-author { margin: 0; overflow: hidden; color: #475569; font-size: .6rem; line-height: 1.2; text-overflow: ellipsis; white-space: nowrap; }
+        .book-description { display: -webkit-box; margin: 0; overflow: hidden; color: #64748b; font-size: .58rem; line-height: 1.2; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+        .book-meta { display: flex; flex-wrap: wrap; gap: 3px; color: #64748b; font-size: .5rem; }
+        .book-meta span { max-width: 100%; overflow: hidden; padding: 1px 4px; border-radius: 6px; background: #f1f5f9; text-overflow: ellipsis; white-space: nowrap; }
+        .book-read-button { display: flex; align-items: center; justify-content: center; min-height: 24px; margin-top: auto; border-radius: 6px; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff !important; font-size: .65rem; font-weight: 600; line-height: 1.2; text-decoration: none !important; transition: all .15s ease; box-shadow: 0 2px 4px rgba(37, 99, 235, .15); }
+        .book-read-button:hover { background: linear-gradient(135deg, #1d4ed8, #1e40af); transform: translateY(-1px); box-shadow: 0 4px 8px rgba(37, 99, 235, .25); }
         @media (max-width: 850px) { .google-book-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 700px; } }
         @media (max-width: 550px) { .google-book-grid { grid-template-columns: 1fr; max-width: 400px; } }
     </style>
     <div class="google-book-grid">""" + "".join(cards) + "</div>", unsafe_allow_html=True)
+
 
 def setup_vectorstore():
     persist_directory = f"{working_dir}/vector_db_dir"
@@ -2305,7 +2518,7 @@ def chat_chain(vectorstore, system_prompt=DEFAULT_SYSTEM_PROMPT, negative_prompt
 st.set_page_config(
     page_title="Chat with Genesis Care",
     page_icon="🤖",
-    layout="wide",  # Changed to wide layout to accommodate sidebar
+    layout="wide",
 )
 
 # Custom CSS for sidebar styling
@@ -2445,13 +2658,16 @@ if "vectorstore" not in st.session_state:
 if "conversational_chain" not in st.session_state:
     st.session_state.conversational_chain = chat_chain(st.session_state.vectorstore)
 
-# Display chat messages
+# Display chat messages – now including book cards for stability on reruns
 for message in st.session_state.chat_history:
     with st.chat_message(message["role"]):
         if message["role"] == "assistant":
             render_assistant_response(message["content"])
             if message.get("media_request"):
                 render_media_section(message["media_request"], st.session_state.conversational_chain.llm)
+            # Only show book cards if the request was for English books
+            if message.get("books") and message.get("book_request", {}).get("language") != "🇲🇲 Burmese":
+                render_book_cards(message["books"])
         else:
             st.markdown(message["content"])
 
@@ -2484,6 +2700,7 @@ if user_input:
                 })
                 assistant_response = response["answer"]
             elif book_request.get("is_requested"):
+                # Use the fixed book list based on language
                 books = search_mental_health_books(
                     user_input, book_request.get("language", "English"),
                     book_request.get("limit", BOOK_SEARCH_LIMIT), book_request.get("free_only", False),
@@ -2491,6 +2708,10 @@ if user_input:
                 assistant_response = _book_assistant_response(
                     book_request, books, st.session_state.conversational_chain.llm
                 )
+                # Render book cards only for non‑Burmese resources
+                if books and book_request.get("language") != "🇲🇲 Burmese":
+                    render_book_cards(books)
+                    logger.info("BOOK UI | requested=%s | found=%d", book_request.get("source"), len(books))
             elif media_request.get("is_requested"):
                 assistant_response = _media_assistant_response(media_request)
             else:
@@ -2506,9 +2727,11 @@ if user_input:
             render_media_section(media_request, st.session_state.conversational_chain.llm)
         elif media_request.get("is_requested"):
             render_media_section(media_request, st.session_state.conversational_chain.llm)
+        # Store the message with book data for stability on reruns
         st.session_state.chat_history.append({
             "role": "assistant",
             "content": assistant_response,
             "media_request": media_request,
             "book_request": book_request,
+            "books": books,
         })

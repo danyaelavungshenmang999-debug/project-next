@@ -182,3 +182,5 @@ config.json
 # IDE settings
 .idea/
 .vscode/
+vector_db_dir/
+README.md
