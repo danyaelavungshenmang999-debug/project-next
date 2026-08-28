@@ -2629,25 +2629,24 @@ with st.sidebar:
 # Add header image
 
 # Function to encode the image file to base64 for HTML embedding
-BASE_DIR = Path(__file__).resolve().parent
-image_path = BASE_DIR / "images" / "logo.jpg"
+image_path = (
+    "/Users/daniel/Downloads/Old/images/telegram-cloud-photo-size-5-6079859858187424447-x.jpg"
+)
 
-encoded_img = ""
-if image_path.is_file():
-    with image_path.open("rb") as image_file:
-        encoded_img = base64.b64encode(image_file.read()).decode("ascii")
+with open(image_path, "rb") as f:
+    img_bytes = f.read()
+encoded_img = base64.b64encode(img_bytes).decode()
 
 # Inline flexbox container to lock icon and header side-by-side
 st.markdown(
     f"""
     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
-        {f'<img src="data:image/jpeg;base64,{encoded_img}" alt="Genesis Care logo" style="width: 56px; height: 56px; flex: 0 0 56px; border-radius: 50%; object-fit: cover;">' if encoded_img else ''}
+        <img src="data:image/jpeg;base64,{encoded_img}" style="width: 55px; height: 55px; border-radius: 50%; object-fit: cover;">
         <h1 style="margin: 0; padding: 0; font-size: 2.2rem; line-height: 1.2;">Genesis Care</h1>
     </div>
     """,
     unsafe_allow_html=True,
 )
-
 image_candidates = [
     os.path.join(working_dir, "images", "Panromic_May_Is_Mental_HEALTH_Awareness_Month_image.png"),
     os.path.join(working_dir, "images", "banner-for-mental-health-awareness-month-in-may.jpg"),
