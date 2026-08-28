@@ -2629,19 +2629,23 @@ with st.sidebar:
 # Add header image
 
 # Function to encode the image file to base64 for HTML embedding
-image_path = (
-    "/Users/daniel/Downloads/Old/images/telegram-cloud-photo-size-5-6079859858187424447-x.jpg"
-)
 
-with open(image_path, "rb") as f:
-    img_bytes = f.read()
-encoded_img = base64.b64encode(img_bytes).decode()
+image_path = "images/logo.jpg"
 
-# Inline flexbox container to lock icon and header side-by-side
+# 2. Safely check and encode the image
+if os.path.exists(image_path):
+    with open(image_path, "rb") as f:
+        encoded_img = base64.b64encode(f.read()).decode()
+    img_html = f'<img src="data:image/jpeg;base64,{encoded_img}" style="width: 55px; height: 55px; border-radius: 50%; object-fit: cover;">'
+else:
+    # Fallback to prevent crash if file name is misspelled or missing
+    img_html = '<div style="width: 55px; height: 55px; border-radius: 50%; background-color: #2563eb; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.5rem;">GC</div>'
+
+# 3. Render header
 st.markdown(
     f"""
     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
-        <img src="data:image/jpeg;base64,{encoded_img}" style="width: 55px; height: 55px; border-radius: 50%; object-fit: cover;">
+        {img_html}
         <h1 style="margin: 0; padding: 0; font-size: 2.2rem; line-height: 1.2;">Genesis Care</h1>
     </div>
     """,
