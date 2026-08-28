@@ -658,15 +658,27 @@ if os.path.exists(config_path):
         config_data = json.load(f)
 else:
     config_data = {}
+
+try:
+    streamlit_secrets = st.secrets
+except Exception:
+    streamlit_secrets = {}
+
+
+def _get_api_key(name):
+    return str(
+        streamlit_secrets.get(name)
+        or os.environ.get(name)
+        or env_config.get(name)
+        or config_data.get(name, "")
+    ).strip()
+
+
 GROQ_API_KEY = str(
-    os.environ.get("GROQ_API_KEY") or env_config.get("GROQ_API_KEY") or config_data.get("GROQ_API_KEY", "")
-).strip()
-YOUTUBE_API_KEY = str(
-    os.environ.get("YOUTUBE_API_KEY") or env_config.get("YOUTUBE_API_KEY") or config_data.get("YOUTUBE_API_KEY", "")
-).strip()
-GOOGLE_BOOKS_API_KEY = str(
-    os.environ.get("GOOGLE_BOOKS_API_KEY") or env_config.get("GOOGLE_BOOKS_API_KEY") or config_data.get("GOOGLE_BOOKS_API_KEY", "")
-).strip()
+    _get_api_key("GROQ_API_KEY")
+)
+YOUTUBE_API_KEY = _get_api_key("YOUTUBE_API_KEY")
+GOOGLE_BOOKS_API_KEY = _get_api_key("GOOGLE_BOOKS_API_KEY")
 if GROQ_API_KEY:
     os.environ["GROQ_API_KEY"] = GROQ_API_KEY
 else:
@@ -2618,7 +2630,7 @@ with st.sidebar:
 
 # Function to encode the image file to base64 for HTML embedding
 BASE_DIR = Path(__file__).resolve().parent
-image_path = BASE_DIR / "images" / "telegram-cloud-photo-size-5-6079859858187424447-x.jpg"
+image_path = BASE_DIR / "images" / "logo.jpg"
 
 encoded_img = ""
 if image_path.is_file():
@@ -2629,7 +2641,7 @@ if image_path.is_file():
 st.markdown(
     f"""
     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
-        {f'<img src="data:image/jpeg;base64,{encoded_img}" style="width: 55px; height: 55px; border-radius: 50%; object-fit: cover;">' if encoded_img else ''}
+        {f'<img src="data:image/jpeg;base64,{encoded_img}" alt="Genesis Care logo" style="width: 56px; height: 56px; flex: 0 0 56px; border-radius: 50%; object-fit: cover;">' if encoded_img else ''}
         <h1 style="margin: 0; padding: 0; font-size: 2.2rem; line-height: 1.2;">Genesis Care</h1>
     </div>
     """,
