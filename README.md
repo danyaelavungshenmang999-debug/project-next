@@ -168,3 +168,6 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 - **LangChain**: For building robust chains of logic for querying and text processing.
 - **Chroma**: For efficiently managing and querying vectorized data.
 - **WHO** and **Ministry of Health and Family Welfare, Government of India**: For providing the essential mental health guidelines.
+source .venv/bin/activate
+source venv/bin/activate
+find . -maxdepth 2 -type f -path '*/bin/activate'
