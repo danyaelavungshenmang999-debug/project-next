@@ -2616,7 +2616,7 @@ with st.sidebar:
 # Add header image
 
 import base64
-import streamlit as st
+
 
 # Function to encode the image file to base64 for HTML embedding
 image_path = (
@@ -2646,7 +2646,7 @@ image_candidates = [
 ]
 selected_image = next((path for path in image_candidates if os.path.exists(path)), None)
 if selected_image:
-    st.image(selected_image, use_column_width="auto")
+    st.image(selected_image, use_column_width=True)
 
 if not GROQ_API_KEY:
     st.warning("Groq API key is missing. Add it to config.json or set the GROQ_API_KEY environment variable to enable chatbot responses.")

@@ -183,3 +183,4 @@ config.json
 .idea/
 .vscode/
 vector_db_dir/
+.DS_Store
