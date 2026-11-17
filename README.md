@@ -157,9 +157,9 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 
 ## Contact
 
-- 📧 Email: [shahdeep1406@gmail.com](mailto:shahdeep1406@gmail.com)
-- 🐙 GitHub: [DeepShah1406](https://github.com/DeepShah1406)
-- 💼 LinkedIn: [deepshah1406](https://www.linkedin.com/in/deepshah1406)
+- 📧 Email: [danyaelavungshenmang999@gmail.com](mailto:danyaelavungshenmang999@gmail.com)
+- 🐙 GitHub: [danyaelavungshenmang999](https://github.com/danyaelavungshenmang999)
+- 💼 LinkedIn: [danyaelavungshenmang999](https://www.linkedin.com/in/danyaelavungshenmang999)
 
 ---
 
